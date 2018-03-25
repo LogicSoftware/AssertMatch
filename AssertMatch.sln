@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssertMatch", "AssertMatch\AssertMatch.csproj", "{2AE46D54-B22F-4114-97DD-7A09145B594A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssertMatch.Tests", "AssertMatch.Tests\AssertMatch.Tests.csproj", "{50F39C4C-FD74-495E-8CEB-9EC6D8ED578A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AE46D54-B22F-4114-97DD-7A09145B594A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE46D54-B22F-4114-97DD-7A09145B594A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE46D54-B22F-4114-97DD-7A09145B594A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE46D54-B22F-4114-97DD-7A09145B594A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50F39C4C-FD74-495E-8CEB-9EC6D8ED578A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50F39C4C-FD74-495E-8CEB-9EC6D8ED578A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50F39C4C-FD74-495E-8CEB-9EC6D8ED578A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50F39C4C-FD74-495E-8CEB-9EC6D8ED578A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
