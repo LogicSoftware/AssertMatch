@@ -27,9 +27,14 @@ namespace AssertMatch
 
         public void MatchTo(Expression<Func<T, bool>> expectedValuesExpression)
         {
-            if(!IsMatchTo(expectedValuesExpression))
+            if(IsMatchTo(expectedValuesExpression))
             {
-                throw new Exception("error");
+                TestFramework.Ok();
+            }
+            else
+            {
+                var msg = GetFailMessage(expectedValuesExpression);
+                TestFramework.Fail(msg);
             }
         }
 
