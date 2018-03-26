@@ -16,9 +16,11 @@ namespace MSTestV2Example
                 Pet = new { Name = "Sharik" }
             };
 
-            Expect(obj).MatchTo(x => x.Name == "Jack" &&
-                                     x.Age == 25 &&
-                                     x.Pet.Name == "Sharik");
+            Expect(obj).MatchTo(
+                x => x.Name == "Jack" &&
+                     x.Age == 25 &&
+                     x.Pet.Name == "Sharik"
+            );
         }
 
         [TestMethod]
@@ -30,8 +32,10 @@ namespace MSTestV2Example
                 Age = 25
             };
 
-            Expect(obj).MatchTo(x => x.Name == "NotJack" &&
-                                     x.Age == 25);
+            Expect(obj).MatchTo(
+                x => x.Name == "NotJack" &&
+                     x.Age == 25
+            );
         }
 
         [TestMethod]
@@ -44,9 +48,11 @@ namespace MSTestV2Example
                 Department = "Dev"
             };
 
-            Expect(obj).MatchTo(x => x.Name == "NotJack" &&
-                                     x.Age == 25 &&
-                                     x.Department == "QA");
+            Expect(obj).MatchTo(
+                x => x.Name == "NotJack" &&
+                     x.Age == 25 &&
+                     x.Department == "QA"
+            );
         }
 
         [TestMethod]
