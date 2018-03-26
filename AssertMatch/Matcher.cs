@@ -15,10 +15,14 @@ namespace AssertMatch
 
         internal bool IsMatchTo(Expression<Func<T, bool>> expression)
         {
-            var visitor = new MatchComparerVisitor<T>(expression.Parameters[0].Name);
-            visitor.Visit(expression);
+            var matchComarer = BuildComparer(expression);
+            return matchComarer.IsMatch(_actual);
+        }
 
-            return visitor.Comparer.IsMatch(_actual);
+        internal string GetFailMessage(Expression<Func<T, bool>> expression)
+        {
+            var matchComarer = BuildComparer(expression);
+            return matchComarer.GetFailMessage(_actual);
         }
 
         public void MatchTo(Expression<Func<T, bool>> expectedValuesExpression)
@@ -27,6 +31,15 @@ namespace AssertMatch
             {
                 throw new Exception("error");
             }
+        }
+
+        private MatchComparer<T> BuildComparer(Expression<Func<T, bool>> expression)
+        {
+            var visitor = new MatchComparerVisitor<T>(expression.Parameters[0]
+                                                                .Name);
+            visitor.Visit(expression);
+            var matchComarer = visitor.Comparer;
+            return matchComarer;
         }
     }
 }

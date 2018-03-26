@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace AssertMatch
 {
@@ -16,6 +17,18 @@ namespace AssertMatch
             }
 
             return _expectedValues.All(x => x.IsEqual(obj));
+        }
+
+        public string GetFailMessage(T actual)
+        {
+            var result = new StringBuilder("\r\n");
+            result.AppendLine("Match is failed:");
+            foreach (var expectedValue in _expectedValues)
+            {
+                result.AppendLine($"    {expectedValue.GetMessage(actual)}");
+            }
+
+            return result.ToString();
         }
 
         public void RegisterExpectedValue(ValueReader<T> valueReader, object expectedValue)

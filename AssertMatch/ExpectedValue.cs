@@ -32,5 +32,38 @@
 
             return Expected.Equals(actualValue);
         }
+
+        public string GetMessage(T actual)
+        {
+            var name = ValueReader.GetMemberName();
+            if (IsEqual(actual))
+            {
+                return $"✓ {name} == {FormatValue(Expected)}";
+            }
+
+            var actualValue = ValueReader.GetValue(actual, out var isCantReadProperiesChain);
+            var actualValueMsg = FormatValue(actualValue);
+            if (isCantReadProperiesChain)
+            {
+                actualValueMsg = $"{ValueReader.GetNameBeforeNullInPropsChain(actual)} is NULL";
+            }
+            
+            return $"✘ {name} == {FormatValue(Expected)}, Actual: {actualValueMsg}";
+        }
+
+        private string FormatValue(object value)
+        {
+            if(value == null)
+            {
+                return "NULL";
+            }
+
+            if(value is string)
+            {
+                return $"\"{value}\"";
+            }
+
+            return value.ToString();
+        }
     }
 }

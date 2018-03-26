@@ -29,14 +29,10 @@ namespace AssertMatch.Visitors
 
             if (node.NodeType == ExpressionType.AndAlso)
             {
-                Visit(node.Left);
-                Visit(node.Right);
-                return node;
+                return base.VisitBinary(node);
             }
-            else
-            {
-                throw new Exception($"Not supported unary operation {node.NodeType}.\n Expression: ${node}");
-            }
+
+            throw new Exception($"Not supported binary operation {node.NodeType}.\n Expression: ${node}");
         }
 
         private ValueReader<T> GetParameterValueReader(Expression node)

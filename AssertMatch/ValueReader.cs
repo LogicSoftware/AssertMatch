@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace AssertMatch
@@ -16,18 +18,52 @@ namespace AssertMatch
         {
             cantReadProperiesChain = false;
             object curr = obj;
-            //TODO: support fields accessors
-            foreach (PropertyInfo property in _properties)
+            foreach (var property in _properties)
             {
                 if(curr == null)
                 {
                     cantReadProperiesChain = true;
                     return null;
                 }
-                curr = property.GetValue(curr);
+                curr = GetValue(curr, property);
             }
 
             return curr;
+        }
+
+        private object GetValue(object owner, MemberInfo memberInfo)
+        {
+            if(memberInfo is PropertyInfo pi)
+            {
+                return pi.GetValue(owner);
+            }
+
+            throw new Exception($"MatchTo currently supports only properties checks. But found comparing of {memberInfo.Name}({memberInfo.MemberType})");
+        }
+
+        //TODO: better name
+        public string GetNameBeforeNullInPropsChain(T obj)
+        {
+            IEnumerable<string> GetNames()
+            {
+                object curr = obj;
+                foreach (var property in _properties)
+                {
+                    if (curr == null)
+                    {
+                        yield break;
+                    }
+                    curr = GetValue(curr, property);
+                    yield return property.Name;
+                }
+            }
+
+            return string.Join(".", GetNames());
+        }
+
+        public string GetMemberName()
+        {
+            return string.Join(".", _properties.Select(x => x.Name));
         }
     }
 }

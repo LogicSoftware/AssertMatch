@@ -1,10 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AssertMatch.Tests.Entities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static AssertMatch.Match;
 
 namespace AssertMatch.Tests
 {
     [TestClass]
-    public class MatcherTests
+    public class Matcher_IsMatchTo_Tests
     {
         [TestMethod]
         public void Simple_property_match_check()
@@ -148,20 +149,5 @@ namespace AssertMatch.Tests
 
             Assert.IsTrue(result);
         }
-
-        class Person
-        {
-            public string Name { get; set; }
-
-            public int Age { get; set; }
-
-            public Pet Pet { get; set; }
-        }
-
-        class Pet
-        {
-            public string Name { get; set; }
-        }
-        
     }
 }
