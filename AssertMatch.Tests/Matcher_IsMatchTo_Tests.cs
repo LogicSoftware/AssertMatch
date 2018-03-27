@@ -149,5 +149,15 @@ namespace AssertMatch.Tests
 
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public void Should_not_match_if_actual_object_is_null()
+        {
+            Person person = null;
+
+            var result = Expect(person).IsMatchTo(x => x.Name == "Jack");
+
+            Assert.IsFalse(result);
+        }
     }
 }

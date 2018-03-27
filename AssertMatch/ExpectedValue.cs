@@ -33,9 +33,9 @@
             return Expected.Equals(actualValue);
         }
 
-        public string GetMessage(T actual)
+        public string GetMessage(T actual, string actualArgName)
         {
-            var name = ValueReader.GetMemberName();
+            var name = $"{actualArgName}.{ValueReader.GetMemberName()}";
             if (IsEqual(actual))
             {
                 return $"✓ {name} == {FormatValue(Expected)}";
@@ -45,7 +45,13 @@
             var actualValueMsg = FormatValue(actualValue);
             if (isCantReadProperiesChain)
             {
-                actualValueMsg = $"{ValueReader.GetNameBeforeNullInPropsChain(actual)} is NULL";
+                var nullPathName = actualArgName;
+                var pathBeforeNull = ValueReader.GetNameBeforeNullInPropsChain(actual);
+                if (!string.IsNullOrEmpty(pathBeforeNull))
+                {
+                    nullPathName += $".{pathBeforeNull}";
+                }
+                actualValueMsg = $"{nullPathName} is NULL";
             }
             
             return $"✘ {name} == {FormatValue(Expected)}, Actual: {actualValueMsg}";

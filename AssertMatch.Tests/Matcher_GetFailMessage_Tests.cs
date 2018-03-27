@@ -16,7 +16,7 @@ namespace AssertMatch.Tests
 
             Assert.AreEqual(@"
 Match is failed:
-    ✘ Name == ""NotJack"", Actual: ""Jack""
+    ✘ x.Name == ""NotJack"", Actual: ""Jack""
 ", msg);
         }
 
@@ -30,8 +30,8 @@ Match is failed:
 
             Assert.AreEqual(@"
 Match is failed:
-    ✓ Name == ""Jack""
-    ✘ Age == 26, Actual: 25
+    ✓ x.Name == ""Jack""
+    ✘ x.Age == 26, Actual: 25
 ", msg);
         }
 
@@ -44,7 +44,7 @@ Match is failed:
 
             Assert.AreEqual(@"
 Match is failed:
-    ✘ Pet.Name == ""Jack"", Actual: ""Sharik""
+    ✘ x.Pet.Name == ""Jack"", Actual: ""Sharik""
 ", msg);
         }
 
@@ -57,7 +57,7 @@ Match is failed:
 
             Assert.AreEqual(@"
 Match is failed:
-    ✘ Pet.Name == ""Sharik"", Actual: Pet is NULL
+    ✘ x.Pet.Name == ""Sharik"", Actual: x.Pet is NULL
 ", msg);
         }
 
@@ -70,7 +70,7 @@ Match is failed:
 
             Assert.AreEqual(@"
 Match is failed:
-    ✘ Name == ""Jack"", Actual: NULL
+    ✘ x.Name == ""Jack"", Actual: NULL
 ", msg);
         }
 
@@ -83,7 +83,20 @@ Match is failed:
 
             Assert.AreEqual(@"
 Match is failed:
-    ✘ Name == NULL, Actual: ""Jack""
+    ✘ x.Name == NULL, Actual: ""Jack""
+", msg);
+        }
+
+        [TestMethod]
+        public void Actual_object_is_null()
+        {
+            Person person = null;
+
+            var msg = Expect(person).GetFailMessage(x => x.Name == "Jack");
+
+            Assert.AreEqual(@"
+Match is failed:
+    ✘ x.Name == ""Jack"", Actual: x is NULL
 ", msg);
         }
     }

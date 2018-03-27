@@ -11,7 +11,7 @@ namespace AssertMatch.Visitors
         public MatchComparerVisitor(string parameterName)
         {
             _parameterName = parameterName;
-            Comparer = new MatchComparer<T>();
+            Comparer = new MatchComparer<T>(parameterName);
         }
 
         protected override Expression VisitBinary(BinaryExpression node)

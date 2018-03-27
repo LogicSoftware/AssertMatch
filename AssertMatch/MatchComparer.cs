@@ -7,7 +7,16 @@ namespace AssertMatch
 {
     class MatchComparer<T>
     {
+        //name of match func argument.
+        //for example: x => x.Name == "test", then actualArgName is x
+        private readonly string _actualArgName;
+
         private List<ExpectedValue<T>> _expectedValues = new List<ExpectedValue<T>>();
+
+        public MatchComparer(string actualArgName)
+        {
+            _actualArgName = actualArgName;
+        }
 
         public bool IsMatch(T obj)
         {
@@ -25,7 +34,7 @@ namespace AssertMatch
             result.AppendLine("Match is failed:");
             foreach (var expectedValue in _expectedValues)
             {
-                result.AppendLine($"    {expectedValue.GetMessage(actual)}");
+                result.AppendLine($"    {expectedValue.GetMessage(actual, _actualArgName)}");
             }
 
             return result.ToString();
