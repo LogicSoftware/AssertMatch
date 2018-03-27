@@ -77,5 +77,14 @@ namespace MSTestV2Example
 
             Expect(obj).MatchTo(x => x.Inner.Length == 25);
         }
+
+        [TestMethod]
+        public void Expected_value_specifed_with_closure()
+        {
+            var person = new { Id = 5 };
+            var actual = new { Id = 1 };
+
+            Expect(actual).MatchTo(x => x.Id == person.Id);
+        }
     }
 }
