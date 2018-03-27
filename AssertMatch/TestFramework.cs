@@ -6,19 +6,28 @@ namespace AssertMatch
 {
     public class TestFramework
     {
-        static Lazy<ITestFrameworkAdapter> _adapter = new Lazy<ITestFrameworkAdapter>(GetAdapter);
+        static Lazy<ITestFrameworkAdapter> _adapterLoader = new Lazy<ITestFrameworkAdapter>(LoadAdapter);
+
+        static ITestFrameworkAdapter _adapter;
+
+        static ITestFrameworkAdapter Adapter => _adapter ?? (_adapter = _adapterLoader.Value);
 
         public static void Fail(string message)
         {
-            _adapter.Value.Fail(message);
+            Adapter.Fail(message);
         }
 
         public static void Ok()
         {
-            _adapter.Value.Ok();
+            Adapter.Ok();
         }
 
-        private static ITestFrameworkAdapter GetAdapter()
+        public static void SetAdapter(ITestFrameworkAdapter adapter)
+        {
+            _adapter = adapter;
+        }
+
+        private static ITestFrameworkAdapter LoadAdapter()
         {
             var assembly = Assembly.Load("AssertMatch.MSTestV2Adapter");
             var adapter = assembly.GetTypes().First(x => typeof(ITestFrameworkAdapter).IsAssignableFrom(x));
