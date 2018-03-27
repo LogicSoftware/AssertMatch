@@ -1,75 +1,28 @@
-﻿namespace AssertMatch
+﻿using System;
+using System.Linq.Expressions;
+using AssertMatch.Visitors;
+
+namespace AssertMatch
 {
-    class ExpectedValue<T>
+    class ExpectedValue
     {
-        public ValueReader<T> ValueReader { get; }
+        public object Value { get; }
+        public Expression Expression { get; }
 
-        public object Expected { get; }
-
-        public ExpectedValue(ValueReader<T> valueReader, object expected)
+        public ExpectedValue(object value, Expression expression)
         {
-            ValueReader = valueReader;
-            Expected = expected;
+            Value = value;
+            Expression = expression;
         }
 
-        public bool IsEqual(T obj)
+        public object GetMessageValue()
         {
-            var actualValue = ValueReader.GetValue(obj, out var cantReadProperiesChain);
-            if (cantReadProperiesChain)
-            {
-                return false;
-            }
+            var closureName = ExpectedValueNameReader.GetName(Expression);
+            var value = Helper.FormatValue(Value);
 
-            if(actualValue == null && Expected == null)
-            {
-                return true;
-            }
-
-            if(actualValue == null || Expected == null)
-            {
-                return false;
-            }
-
-            return Expected.Equals(actualValue);
-        }
-
-        public string GetMessage(T actual, string actualArgName)
-        {
-            var name = $"{actualArgName}.{ValueReader.GetMemberName()}";
-            if (IsEqual(actual))
-            {
-                return $"✓ {name} == {FormatValue(Expected)}";
-            }
-
-            var actualValue = ValueReader.GetValue(actual, out var isCantReadProperiesChain);
-            var actualValueMsg = FormatValue(actualValue);
-            if (isCantReadProperiesChain)
-            {
-                var nullPathName = actualArgName;
-                var pathBeforeNull = ValueReader.GetNameBeforeNullInPropsChain(actual);
-                if (!string.IsNullOrEmpty(pathBeforeNull))
-                {
-                    nullPathName += $".{pathBeforeNull}";
-                }
-                actualValueMsg = $"{nullPathName} is NULL";
-            }
-            
-            return $"✘ {name} == {FormatValue(Expected)}, Actual: {actualValueMsg}";
-        }
-
-        private string FormatValue(object value)
-        {
-            if(value == null)
-            {
-                return "NULL";
-            }
-
-            if(value is string)
-            {
-                return $"\"{value}\"";
-            }
-
-            return value.ToString();
+            return string.IsNullOrEmpty(closureName) ?
+                                value :
+                                $"{value} ({closureName})";
         }
     }
 }

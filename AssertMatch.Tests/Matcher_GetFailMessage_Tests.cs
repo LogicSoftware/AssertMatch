@@ -99,5 +99,19 @@ Match is failed:
     ✘ x.Name == ""Jack"", Actual: x is NULL
 ", msg);
         }
+
+        [TestMethod]
+        public void ExpectedValue_should_additionally_contain_info_about_closure_variable()
+        {
+            var expected = new Person { Name = "NotJack" };
+            var actual = new Person { Name = "Jack" };
+
+            var msg = Expect(actual).GetFailMessage(x => x.Name == expected.Name);
+
+            Assert.AreEqual(@"
+Match is failed:
+    ✘ x.Name == ""NotJack"" (expected.Name), Actual: ""Jack""
+", msg);
+        }
     }
 }

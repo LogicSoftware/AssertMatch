@@ -38,11 +38,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper.cs" />
     <Compile Include="ITestFrameworkAdapter.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="ExpectedValue.cs" />
+    <Compile Include="MatchComparerItems.cs" />
     <Compile Include="Matcher.cs" />
     <Compile Include="TestFramework.cs" />
+    <Compile Include="Visitors\ExpectedValueNameReader.cs" />
     <Compile Include="Visitors\IsParameterAccessExpressionVisitor.cs" />
     <Compile Include="MatchComparer.cs" />
     <Compile Include="Visitors\MatchComparerVisitor.cs" />

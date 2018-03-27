@@ -23,9 +23,11 @@ namespace AssertMatch.Visitors
                 var isActualOnLeft = IsParameterAccessExpression(node.Left);
 
                 var valueReader = GetParameterValueReader(isActualOnLeft ?  node.Left : node.Right);
-                var expectedValue = EvalualteExpression(isActualOnLeft ? node.Right : node.Left);
-                
-                _comparer.RegisterExpectedValue(valueReader, expectedValue);
+
+                var expectedValueExpression = isActualOnLeft ? node.Right : node.Left;
+                var expectedValue = EvalualteExpression(expectedValueExpression);
+
+                _comparer.RegisterItem(valueReader, new ExpectedValue(expectedValue, expectedValueExpression));
                 return node;
             }
 
