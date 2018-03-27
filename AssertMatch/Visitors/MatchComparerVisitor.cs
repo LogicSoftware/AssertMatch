@@ -5,13 +5,15 @@ namespace AssertMatch.Visitors
 {
     class MatchComparerVisitor<T> : ExpressionVisitor
     {
-        private readonly string _parameterName;
-        public MatchComparer<T> Comparer { get; }
+        private string _parameterName;
+        private MatchComparer<T> _comparer;
 
-        public MatchComparerVisitor(string parameterName)
+        public MatchComparer<T> BuildComparer(Expression<Func<T, bool>> expression)
         {
-            _parameterName = parameterName;
-            Comparer = new MatchComparer<T>(parameterName);
+            _parameterName = expression.Parameters[0].Name;
+            _comparer = new MatchComparer<T>(_parameterName);
+            this.Visit(expression);
+            return _comparer;
         }
 
         protected override Expression VisitBinary(BinaryExpression node)
@@ -23,7 +25,7 @@ namespace AssertMatch.Visitors
                 var valueReader = GetParameterValueReader(isActualOnLeft ?  node.Left : node.Right);
                 var expectedValue = EvalualteExpression(isActualOnLeft ? node.Right : node.Left);
                 
-                Comparer.RegisterExpectedValue(valueReader, expectedValue);
+                _comparer.RegisterExpectedValue(valueReader, expectedValue);
                 return node;
             }
 

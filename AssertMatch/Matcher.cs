@@ -40,11 +40,8 @@ namespace AssertMatch
 
         private MatchComparer<T> BuildComparer(Expression<Func<T, bool>> expression)
         {
-            var visitor = new MatchComparerVisitor<T>(expression.Parameters[0]
-                                                                .Name);
-            visitor.Visit(expression);
-            var matchComarer = visitor.Comparer;
-            return matchComarer;
+            var visitor = new MatchComparerVisitor<T>();
+            return visitor.BuildComparer(expression);
         }
     }
 }
