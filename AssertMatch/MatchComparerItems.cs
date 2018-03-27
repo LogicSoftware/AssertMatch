@@ -37,10 +37,10 @@
         public string GetMessage(T actual, string actualArgName)
         {
             var name = $"{actualArgName}.{ValueReader.GetMemberName()}";
-            var expectedText = _expectedValue.GetMessageValue();
+            var expectedText = _expectedValue.GetFormattedValue();
             if (IsEqual(actual))
             {
-                return $"✓ {name} == {expectedText}";
+                return $"{Constants.PassSign} {name} == {expectedText}";
             }
 
             var actualValue = ValueReader.GetValue(actual, out var isCantReadProperiesChain);
@@ -56,7 +56,12 @@
                 actualValueMsg = $"{nullPathName} is NULL";
             }
             
-            return $"✘ {name} == {expectedText}, Actual: {actualValueMsg}";
+            return $"{Constants.FailSign} {name} == {expectedText}, Actual: {actualValueMsg}";
+        }
+
+        public string GetExpectedValueMsg()
+        {
+            return $"{ValueReader.GetMemberName()} = {_expectedValue.GetFormattedValue()}";
         }
     }
 }

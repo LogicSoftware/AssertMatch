@@ -15,7 +15,7 @@ namespace AssertMatch
             Expression = expression;
         }
 
-        public object GetMessageValue()
+        public object GetFormattedValue()
         {
             var closureName = ExpectedValueNameReader.GetName(Expression);
             var value = Helper.FormatValue(Value);

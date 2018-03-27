@@ -13,6 +13,8 @@ namespace AssertMatch
 
         private List<MatchComparerItems<T>> _items = new List<MatchComparerItems<T>>();
 
+        public IEnumerable<ValueReader<T>> ActualValueReaders => _items.Select(x => x.ValueReader);
+
         public MatchComparer(string actualArgName)
         {
             _actualArgName = actualArgName;
@@ -43,6 +45,12 @@ namespace AssertMatch
         public void RegisterItem(ValueReader<T> valueReader, ExpectedValue expectedValue)
         {
             _items.Add(new MatchComparerItems<T>(valueReader, expectedValue)); 
+        }
+
+        public string FormatExpectedObj()
+        {
+            var values = string.Join(", ", _items.Select(x => x.GetExpectedValueMsg()));
+            return $"{{ {values} }}";
         }
     }
 }

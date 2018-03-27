@@ -6,7 +6,7 @@ using static AssertMatch.Match;
 namespace AssertMatch.Tests
 {
     [TestClass]
-    public class CollectionMatcher_IsEquivalentTo_Tests
+    public class CollectionEquivalentMatcher_IsEquivalentTo_Tests
     {
         [TestMethod]
         public void Single_item_match_check()
