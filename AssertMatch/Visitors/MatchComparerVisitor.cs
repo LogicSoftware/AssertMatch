@@ -8,12 +8,13 @@ namespace AssertMatch.Visitors
         private string _parameterName;
         private MatchComparer<T> _comparer;
 
-        public MatchComparer<T> BuildComparer(Expression<Func<T, bool>> expression)
+        public static MatchComparer<T> BuildComparer(Expression<Func<T, bool>> expression)
         {
-            _parameterName = expression.Parameters[0].Name;
-            _comparer = new MatchComparer<T>(_parameterName);
-            this.Visit(expression);
-            return _comparer;
+            var visitor = new MatchComparerVisitor<T>();
+            visitor._parameterName = expression.Parameters[0].Name;
+            visitor._comparer = new MatchComparer<T>(visitor._parameterName);
+            visitor.Visit(expression);
+            return visitor._comparer;
         }
 
         protected override Expression VisitBinary(BinaryExpression node)

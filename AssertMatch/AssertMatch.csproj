@@ -38,6 +38,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionMatcher.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ITestFrameworkAdapter.cs" />
     <Compile Include="Match.cs" />
