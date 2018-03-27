@@ -38,6 +38,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActualObjFormatter.cs" />
     <Compile Include="CollectionEquivalentMatcher.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Helper.cs" />

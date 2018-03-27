@@ -43,18 +43,8 @@
                 return $"{Constants.PassSign} {name} == {expectedText}";
             }
 
-            var actualValue = ValueReader.GetValue(actual, out var isCantReadProperiesChain);
-            var actualValueMsg = Helper.FormatValue(actualValue);
-            if (isCantReadProperiesChain)
-            {
-                var nullPathName = actualArgName;
-                var pathBeforeNull = ValueReader.GetNameBeforeNullInPropsChain(actual);
-                if (!string.IsNullOrEmpty(pathBeforeNull))
-                {
-                    nullPathName += $".{pathBeforeNull}";
-                }
-                actualValueMsg = $"{nullPathName} is NULL";
-            }
+            var actualValueMsg = ValueReader.GetFormattedValue(actual, actualArgName);
+            
             
             return $"{Constants.FailSign} {name} == {expectedText}, Actual: {actualValueMsg}";
         }

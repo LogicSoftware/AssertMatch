@@ -8,7 +8,7 @@ namespace AssertMatch
         public static ProcessingItem<T> Create<T>(T value) => new ProcessingItem<T> { Value = value };
     }
 
-    class ProcessingItem<T>
+    class ProcessingItem<T> : ProcessingItem
     {
         public T Value { get; set; }
 

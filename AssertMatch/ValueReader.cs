@@ -31,6 +31,27 @@ namespace AssertMatch
             return curr;
         }
 
+        public string GetFormattedValue(T actual, string actualArgName = "")
+        {
+            var actualValue = GetValue(actual, out var isCantReadProperiesChain);
+            var formattedValue = Helper.FormatValue(actualValue);
+            if (isCantReadProperiesChain)
+            {
+                var nullPathName = actualArgName;
+                var pathBeforeNull = GetNameBeforeNullInPropsChain(actual);
+                if (!string.IsNullOrEmpty(pathBeforeNull))
+                {
+                    if (!string.IsNullOrEmpty(nullPathName))
+                        nullPathName += ".";
+
+                    nullPathName += pathBeforeNull;
+                }
+                formattedValue = $"{nullPathName} is NULL";
+            }
+
+            return formattedValue;
+        }
+
         private object GetValue(object owner, MemberInfo memberInfo)
         {
             if(memberInfo is PropertyInfo pi)
@@ -65,5 +86,24 @@ namespace AssertMatch
         {
             return string.Join(".", _properties.Select(x => x.Name));
         }
+
+        private sealed class PropertiesEqualityComparer : IEqualityComparer<ValueReader<T>>
+        {
+            public bool Equals(ValueReader<T> x, ValueReader<T> y)
+            {
+                if (ReferenceEquals(x, y)) return true;
+                if (ReferenceEquals(x, null)) return false;
+                if (ReferenceEquals(y, null)) return false;
+                if (x.GetType() != y.GetType()) return false;
+                return Equals(x.GetMemberName(), y.GetMemberName());
+            }
+
+            public int GetHashCode(ValueReader<T> obj)
+            {
+                return obj.GetMemberName().GetHashCode();
+            }
+        }
+
+        public static IEqualityComparer<ValueReader<T>> PropertiesComparer { get; } = new PropertiesEqualityComparer();
     }
 }

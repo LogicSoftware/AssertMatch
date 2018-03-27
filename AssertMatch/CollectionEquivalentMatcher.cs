@@ -34,25 +34,32 @@ namespace AssertMatch
             }
 
             msg.AppendLine("Actual collection is not equivalent to specifed items.");
-            msg.AppendLine("Expected items:");
-            foreach (var item in result.ExpectedItems)
-            {
-                var resSign = item.IsProcessed ? Constants.PassSign : Constants.FailSign;
-                msg.AppendLine($"    {resSign} {item.Value.FormatExpectedObj()}");
-            }
 
-            //TODO: 
+            msg.AppendLine("Expected items:");
+            FormatItems(result.ExpectedItems, i => i.FormatExpectedObj());
+
             msg.AppendLine("");
+
+            var actualObjFormatter = new ActualObjFormatter<T>(result.ExpectedItems.SelectMany(x => x.Value.ActualValueReaders));
             msg.AppendLine("Actual items:");
-            var valueReader = result.ExpectedItems.First().Value.ActualValueReaders.First();
-            foreach (var item in result.ActualItems)
-            {
-                var resSign = item.IsProcessed ? Constants.PassSign : Constants.FailSign;
-                var actualObj = $"{{ {valueReader.GetMemberName()} = {Helper.FormatValue(valueReader.GetValue(item.Value, out var _))} }}";
-                msg.AppendLine($"    {resSign} {actualObj}");
-            }
+            FormatItems(result.ActualItems, actualObjFormatter.Format);
 
             return msg.ToString();
+
+            void FormatItems<T>(List<ProcessingItem<T>> items, Func<T, string> formatter)
+            {
+                if(items.Count == 0)
+                {
+                    msg.AppendLine("    EMPTY");
+                    return;
+                }
+
+                foreach (var item in items)
+                {
+                    var resSign = item.IsProcessed ? Constants.PassSign : Constants.FailSign;
+                    msg.AppendLine($"    {resSign} {formatter(item.Value)}");
+                }
+            }
         }
 
         private Result GetResult(params Expression<Func<T, bool>>[] expectedItems)
