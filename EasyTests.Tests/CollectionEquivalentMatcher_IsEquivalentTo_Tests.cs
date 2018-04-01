@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EasyTests.Tests.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static EasyTests.Match;
+using static EasyTests.Asserts;
 
 namespace EasyTests.Tests
 {

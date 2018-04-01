@@ -2,7 +2,7 @@
 using System.Linq;
 using EasyTests.Tests.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static EasyTests.Match;
+using static EasyTests.Asserts;
 
 namespace EasyTests.Tests
 {

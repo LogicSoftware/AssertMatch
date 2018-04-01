@@ -2,7 +2,7 @@
 
 namespace EasyTests
 {
-    public class Match
+    public class Asserts
     {
         public static Matcher<T> Expect<T>(T source)
         {
