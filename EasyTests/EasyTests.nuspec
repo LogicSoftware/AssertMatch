@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>LogicSoftware.EasyTests</id>
+    <version>$version$</version>
+    <authors>LogicSoftware</authors>
+    <owners>LogicSoftware</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Helper funcs to make tests writing easier</description>
+    <copyright>Copyright 2018</copyright>
+  </metadata>
+</package>

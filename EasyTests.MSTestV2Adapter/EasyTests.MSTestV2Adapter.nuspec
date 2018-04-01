@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>LogicSoftware.EasyTests.MSTestV2Adapter</id>
+    <version>$version$</version>
+    <authors>LogicSoftware</authors>
+    <owners>LogicSoftware</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>LogicSoftware.EasyTests lib adapter for MSTestV2</description>
+    <copyright>Copyright 2018</copyright>
+  </metadata>
+</package>
