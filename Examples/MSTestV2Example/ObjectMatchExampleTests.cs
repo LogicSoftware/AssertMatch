@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static AssertMatch.Match;
+using static EasyTests.Match;
 
 namespace MSTestV2Example
 {
