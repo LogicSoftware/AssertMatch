@@ -13,7 +13,10 @@ namespace EasyTests.Visitors
             var visitor = new MatchComparerVisitor<T>();
             visitor._parameterName = expression.Parameters[0].Name;
             visitor._comparer = new MatchComparer<T>(visitor._parameterName);
-            visitor.Visit(expression);
+
+            var normalizedExpression = BoolMemberAccessNormalizer<T>.Normalize(expression);
+
+            visitor.Visit(normalizedExpression);
             return visitor._comparer;
         }
 
@@ -34,10 +37,22 @@ namespace EasyTests.Visitors
 
             if (node.NodeType == ExpressionType.AndAlso)
             {
+                EnsureAndSubExpressionSupported(node.Left);
+                EnsureAndSubExpressionSupported(node.Right);
+                
                 return base.VisitBinary(node);
             }
 
             throw new Exception($"Not supported binary operation {node.NodeType}.\n Expression: ${node}");
+        }
+
+        private void EnsureAndSubExpressionSupported(Expression exp)
+        {
+            var isSupported = exp.NodeType == ExpressionType.AndAlso || exp.NodeType == ExpressionType.Equal;
+            if (!isSupported)
+            {
+                throw new Exception($"Only == and && operators are supported, but got({exp.NodeType}) : {exp}");
+            }
         }
 
         private ValueReader<T> GetParameterValueReader(Expression node)

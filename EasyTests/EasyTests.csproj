@@ -49,10 +49,12 @@
     <Compile Include="Matcher.cs" />
     <Compile Include="ProcessingItem.cs" />
     <Compile Include="TestFramework.cs" />
+    <Compile Include="Visitors\BoolMemberAccessNormalizer.cs" />
     <Compile Include="Visitors\ExpectedValueNameReader.cs" />
     <Compile Include="Visitors\IsParameterAccessExpressionVisitor.cs" />
     <Compile Include="MatchComparer.cs" />
     <Compile Include="Visitors\MatchComparerVisitor.cs" />
+    <Compile Include="Visitors\MemberAccessTypeReader.cs" />
     <Compile Include="Visitors\ValueReaderVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueReader.cs" />

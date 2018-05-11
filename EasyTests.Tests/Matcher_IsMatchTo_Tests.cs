@@ -1,4 +1,5 @@
-﻿using EasyTests.Tests.Entities;
+﻿using System;
+using EasyTests.Tests.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static EasyTests.Asserts;
 
@@ -158,6 +159,110 @@ namespace EasyTests.Tests
             var result = Expect(person).IsMatchTo(x => x.Name == "Jack");
 
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Should_work_with_explicit_bool_comparison()
+        {
+            var test = new { Value = false };
+
+            var result = Expect(test).IsMatchTo(x => x.Value == false);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Should_work_with_explicit_bool_comparison_with_expected_value_on_the_left()
+        {
+            var test = new { Value = false };
+
+            var result = Expect(test).IsMatchTo(x => false == x.Value);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Should_be_false_for_False_bool_value_without_explicity_comparing_to_true()
+        {
+            var test = new { Value = false };
+
+            var result = Expect(test).IsMatchTo(x => x.Value);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Should_work_for_bool_properties_with_property_navigation_expressio_without_explicity_comparing_to_true()
+        {
+            var test = new { Value = new { NestedValue = false } };
+
+            var result = Expect(test).IsMatchTo(x => x.Value.NestedValue);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Should_be_true_for_True_value_without_explicity_comparing_to_true()
+        {
+            var test = new { Value = true };
+
+            var result = Expect(test).IsMatchTo(x => x.Value);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Should_be_true_for_inverted_False_bool_value()
+        {
+            var test = new { Value = false };
+
+            var result = Expect(test).IsMatchTo(x => !x.Value);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Should_be_false_for_inverted_True_value_without_explicity_comparing_to_true()
+        {
+            var test = new { Value = true };
+
+            var result = Expect(test).IsMatchTo(x => !x.Value);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Should_throw_error_for_unsupported_expression()
+        {
+            var person = new Person();
+            Func<bool> myFunc = () => true;
+
+            Assert.ThrowsException<Exception>(() =>
+            {
+                Expect(person).IsMatchTo(x => x.Age == 25 && myFunc());
+            });
+        }
+
+        [TestMethod]
+        public void Should_throw_error_for_unsupported_expression_on_the_left_expression()
+        {
+            var person = new Person();
+            Func<bool> myFunc = () => true;
+
+            Assert.ThrowsException<Exception>(() =>
+            {
+                Expect(person).IsMatchTo(x => myFunc() && x.Age == 25);
+            });
+        }
+
+        [TestMethod]
+        public void More_then_two_comparisions_should_be_supported()
+        {
+            var person = new Person {Age = 25, Name = "test", Pet = new Pet {Name = "testpet"}};
+
+            var result = Expect(person).IsMatchTo(x => x.Age == 25 && x.Name == "test" && x.Pet.Name == "testpet");
+
+            Assert.IsTrue(result);
         }
     }
 }
