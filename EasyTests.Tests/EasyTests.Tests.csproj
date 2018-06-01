@@ -53,6 +53,7 @@
     <Compile Include="CollectionEquivalentMatcher_IsEquivalentTo_Tests.cs" />
     <Compile Include="Entities\Pet.cs" />
     <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\Sex.cs" />
     <Compile Include="Matcher_GetFailMessage_Tests.cs" />
     <Compile Include="Matcher_IsMatchTo_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

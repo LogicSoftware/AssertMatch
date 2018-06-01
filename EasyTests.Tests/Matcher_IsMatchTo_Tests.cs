@@ -264,5 +264,44 @@ namespace EasyTests.Tests
 
             Assert.IsTrue(result);
         }
+
+        [DataTestMethod]
+        [DataRow(Sex.Female, Sex.Female, true, DisplayName = "when match")]
+        [DataRow(Sex.Female, Sex.Male, false, DisplayName = "when not match")]
+        [DataRow(null, Sex.Male, false, DisplayName = "when actual is null and expected is not null")]
+        [DataRow(null, null, true, DisplayName = "when both null")]
+        [DataRow(Sex.Male, null, false, DisplayName = "when actual is not null and expected is null")]
+        public void Should_work_for_nullable_enums(Sex? actual, Sex? expected, bool expectedResult)
+        {
+            var person = new Person { Name = "test", Sex = actual };
+
+            var result = Expect(person).IsMatchTo(x => x.Sex == expected);
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [DataTestMethod]
+        [DataRow(Sex.Female, Sex.Female, true, DisplayName = "when match")]
+        [DataRow(Sex.Female, Sex.Male, false, DisplayName = "when not match")]
+        public void Should_work_for_enums(Sex actual, Sex expected, bool expectedResult)
+        {
+            var person = new { Sex = actual };
+
+            var result = Expect(person).IsMatchTo(x => x.Sex == expected);
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [DataTestMethod]
+        [DataRow(Sex.Female, Sex.Female, true, DisplayName = "when match")]
+        [DataRow(Sex.Female, Sex.Male, false, DisplayName = "when not match")]
+        public void Should_work_for_enums_with_navigation_properties(Sex actual, Sex expected, bool expectedResult)
+        {
+            var person = new { Inner = new { Sex = actual } };
+
+            var result = Expect(person).IsMatchTo(x => x.Inner.Sex == expected);
+
+            Assert.AreEqual(expectedResult, result);
+        }
     }
 }

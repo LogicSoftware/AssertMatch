@@ -19,11 +19,53 @@ namespace EasyTests.Visitors
         public override Expression Visit(Expression node)
         {
             if(node.NodeType != ExpressionType.MemberAccess &&
-               node.NodeType != ExpressionType.Parameter)
+               node.NodeType != ExpressionType.Parameter &&
+               node.NodeType != ExpressionType.Convert)
             {
                 throw new Exception($"Not supported node. {node}");
             }
             return base.Visit(node);
+        }
+
+        protected override Expression VisitUnary(UnaryExpression node)
+        {
+            if (!IsSupportedUnaryExpression(node))
+            {
+                throw new Exception($"Not supported unary expression: {node}");
+            }
+            return base.VisitUnary(node);
+        }
+
+        private bool IsSupportedUnaryExpression(UnaryExpression node)
+        {
+            if (node.NodeType != ExpressionType.Convert)
+            {
+                return false;
+            }
+
+            var result = IsTargetInt() && IsSourceEnum();
+            if (result)
+            {
+                this.ValueReader.AddResultCast(node.Type);
+            }
+
+            return result;
+
+            bool IsTargetInt()
+            {
+                return ReflectionHelper.GetTypeOrUnderlyingType(node.Type) == typeof(int);
+            }
+
+            bool IsSourceEnum()
+            {
+                var memberType = MemberAccessTypeReader.Read(node.Operand);
+                if (memberType == null)
+                {
+                    return false;
+                }
+
+                return ReflectionHelper.GetTypeOrUnderlyingType(memberType).IsEnum;
+            }
         }
 
         protected override Expression VisitMember(MemberExpression node)

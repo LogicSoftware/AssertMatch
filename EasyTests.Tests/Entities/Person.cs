@@ -7,5 +7,7 @@
         public int Age { get; set; }
 
         public Pet Pet { get; set; }
+
+        public Sex? Sex { get; set; }
     }
 }

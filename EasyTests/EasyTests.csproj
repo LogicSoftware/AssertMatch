@@ -48,6 +48,7 @@
     <Compile Include="MatchComparerItems.cs" />
     <Compile Include="Matcher.cs" />
     <Compile Include="ProcessingItem.cs" />
+    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="TestFramework.cs" />
     <Compile Include="Visitors\BoolMemberAccessNormalizer.cs" />
     <Compile Include="Visitors\ExpectedValueNameReader.cs" />
