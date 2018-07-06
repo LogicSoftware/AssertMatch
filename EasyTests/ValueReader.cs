@@ -8,16 +8,10 @@ namespace EasyTests
     class ValueReader<T>
     {
         private List<MemberInfo> _properties = new List<MemberInfo>();
-        private Type _resultCastType;
 
         public void AddMember(MemberInfo member)
         {
             _properties.Add(member);
-        }
-
-        public void AddResultCast(Type targetType)
-        {
-            _resultCastType = ReflectionHelper.GetTypeOrUnderlyingType(targetType);
         }
 
         public object GetValue(T obj, out bool cantReadProperiesChain)
@@ -32,11 +26,6 @@ namespace EasyTests
                     return null;
                 }
                 curr = GetValue(curr, property);
-            }
-
-            if (_resultCastType != null && curr != null)
-            {
-                curr = Convert.ChangeType(curr, _resultCastType);
             }
 
             return curr;

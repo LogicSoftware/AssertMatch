@@ -17,16 +17,21 @@ namespace EasyTests.Visitors
 
         protected override Expression VisitMember(MemberExpression node)
         {
+            if (MemberType != null)
+            {
+                return node;
+            }
+            
             if (node.Member is PropertyInfo property)
             {
                 MemberType = property.PropertyType;
-                return Expression.Empty();
+                return node;
             }
 
             if (node.Member is FieldInfo field)
             {
                 MemberType = field.FieldType;
-                return Expression.Empty();
+                return node;
             }
 
             throw new Exception($"Unsupported MemberType {node.Member.MemberType}, expression: {node}");

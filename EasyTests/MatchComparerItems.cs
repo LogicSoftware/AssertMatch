@@ -1,4 +1,6 @@
-﻿namespace EasyTests
+﻿using System;
+
+namespace EasyTests
 {
     class MatchComparerItems<T>
     {
@@ -31,6 +33,12 @@
                 return false;
             }
 
+            var actualValueType = ReflectionHelper.GetTypeOrUnderlyingType(actualValue.GetType());
+            if (actualValueType.IsEnum)
+            {
+                actualValue = Convert.ChangeType(actualValue, Enum.GetUnderlyingType(actualValueType));
+            }
+            
             return Expected.Equals(actualValue);
         }
 

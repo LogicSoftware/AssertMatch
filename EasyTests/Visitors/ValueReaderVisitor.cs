@@ -38,34 +38,7 @@ namespace EasyTests.Visitors
 
         private bool IsSupportedUnaryExpression(UnaryExpression node)
         {
-            if (node.NodeType != ExpressionType.Convert)
-            {
-                return false;
-            }
-
-            var result = IsTargetInt() && IsSourceEnum();
-            if (result)
-            {
-                this.ValueReader.AddResultCast(node.Type);
-            }
-
-            return result;
-
-            bool IsTargetInt()
-            {
-                return ReflectionHelper.GetTypeOrUnderlyingType(node.Type) == typeof(int);
-            }
-
-            bool IsSourceEnum()
-            {
-                var memberType = MemberAccessTypeReader.Read(node.Operand);
-                if (memberType == null)
-                {
-                    return false;
-                }
-
-                return ReflectionHelper.GetTypeOrUnderlyingType(memberType).IsEnum;
-            }
+            return node.NodeType == ExpressionType.Convert;
         }
 
         protected override Expression VisitMember(MemberExpression node)

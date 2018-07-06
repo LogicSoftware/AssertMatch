@@ -303,5 +303,35 @@ namespace EasyTests.Tests
 
             Assert.AreEqual(expectedResult, result);
         }
+
+        [TestMethod]
+        public void Convert_to_int_should_not_throw_exception()
+        {
+            var person = new { Sex = (object)0};
+
+            var result = Expect(person).IsMatchTo(x => (int)x.Sex == 0);
+
+            Assert.IsTrue(result);
+        }
+        
+        [TestMethod]
+        public void Convert_to_string_should_not_throw_exception()
+        {
+            var person = new { Sex = (object)"Male"};
+
+            var result = Expect(person).IsMatchTo(x => (string)x.Sex == "Male");
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Convert_to_enum_should_not_throw_exception()
+        {
+            var person = new { Sex = (object)Sex.Male};
+
+            var result = Expect(person).IsMatchTo(x => (Sex)x.Sex == Sex.Male);
+
+            Assert.IsTrue(result);
+        }
     }
 }
