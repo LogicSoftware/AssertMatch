@@ -29,9 +29,15 @@ namespace EasyTests
 
         private static ITestFrameworkAdapter LoadAdapter()
         {
-            var assembly = Assembly.Load("EasyTests.MSTestV2Adapter");
-            var adapter = assembly.GetTypes().First(x => typeof(ITestFrameworkAdapter).IsAssignableFrom(x));
-            return (ITestFrameworkAdapter)Activator.CreateInstance(adapter);
+            var adapter = MSTestAdapterBuilder.Build();
+            if (adapter == null)
+            {
+                throw new NotSupportedException(
+                    "Project's test framework is not supported yet. " +
+                    "Use TestFramework.SetAdapter method for using this lib with current test framework");
+            }
+
+            return adapter;
         }
     }
 }

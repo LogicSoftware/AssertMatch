@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EasyTests.MSTestV2Adapter")]
+[assembly: AssemblyTitle("BuildDependencies")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EasyTests.MSTestV2Adapter")]
+[assembly: AssemblyProduct("BuildDependencies")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ac449e95-3c3e-4f10-964c-5e8ca8380ab6")]
+[assembly: Guid("e0b5c726-36a4-41ea-b22b-72304507a829")]
 
 // Version information for an assembly consists of the following four values:
 //
