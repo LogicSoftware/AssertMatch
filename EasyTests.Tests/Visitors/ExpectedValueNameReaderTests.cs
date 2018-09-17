@@ -35,7 +35,9 @@ namespace EasyTests.Tests.Visitors
         [TestMethod]
         public void GetName_shuld_extract_name_of_owner_property()
         {
+#pragma warning disable 219
             var value = 5;
+#pragma warning restore 219
 
             Assert.AreEqual("PersonProperty", GetName(() => PersonProperty));
         }

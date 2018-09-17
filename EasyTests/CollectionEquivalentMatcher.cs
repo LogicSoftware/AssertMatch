@@ -46,7 +46,7 @@ namespace EasyTests
 
             return msg.ToString();
 
-            void FormatItems<T>(List<ProcessingItem<T>> items, Func<T, string> formatter)
+            void FormatItems<TItem>(List<ProcessingItem<TItem>> items, Func<TItem, string> formatter)
             {
                 if(items.Count == 0)
                 {
