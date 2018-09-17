@@ -5,11 +5,11 @@ properties {
     $nuget = "..\packages\NuGet.CommandLine.4.7.1\tools\NuGet.exe"
     $slnPath = Join-Path $root "EasyTests.sln"
     $easyTestsProj = "..\EasyTests\EasyTests.csproj"
-    $easyTestsPackDir = ".\EasyTestsPack"
+    $easyTestsPackDir = "..\EasyTests\bin\Release"
     $msbuild = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\\MSBuild\15.0\bin\MSBuild.exe"
 }
 
-task default -depends Clean, Build, Pack, Publish
+task default -depends Clean, Build, Publish
 
 task Clean {
     if(Test-Path $easyTestsPackDir){
@@ -18,14 +18,7 @@ task Clean {
 }
 
 task Build {
-    exec { & $msbuild $slnPath "/p:Configuration=Release"}
-}
-
-task Pack {
-    mkdir $easyTestsPackDir
-    exec {
-        & $nuget pack $easyTestsProj -version $version -outputdirectory $easyTestsPackDir -properties Configuration=Release
-    }
+    exec { & $msbuild $easyTestsProj "/p:Configuration=Release" "/p:GeneratePackageOnBuild=true" "/p:Configuration=Release" "/p:Version=$version"}
 }
 
 task Publish {
